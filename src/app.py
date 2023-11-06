@@ -7,6 +7,7 @@ from .utils import load_sub_apps, Template, Request, get_routes
 app = FastAPI()
 
 templates = Template(__package__)
+
 load_sub_apps(app)
 
 # Mount static files

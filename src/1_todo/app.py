@@ -10,7 +10,6 @@ app = FastAPI()
 template = Template(__package__)
 
 
-
 @app.get("/")
 async def home(request: Request, db: Session = Depends(get_db)):
     todos = read_todos(db)

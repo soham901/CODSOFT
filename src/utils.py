@@ -34,13 +34,14 @@ def load_sub_apps(app: FastAPI):
     try:
         for module in modules:
             sub_app = ilib.import_module(f'src.{module}.app')
-            routes.append(f'{module}')
             module = remove_num_pre(module)
             app.mount(f'/{module}', sub_app.app)
+            # app.add_api_route(f'/{module}', ilib.import_module(f'src.{module}.app').app, methods=['GET', 'POST'])
+            routes.append(f'{module}')
             print(module, 'app mounted at', f'/{module}')
 
-    except ImportError:
-        print('Error: Include an app.py file inside your own app.')
+    # except ImportError:
+    #     print('Error: Include an app.py file inside your own app.')
 
     except AttributeError:
         print('Error: Initialize a app object of FastAPI class from fastapi')
