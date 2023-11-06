@@ -1,0 +1,52 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}Task 3: Password Generator{% endblock %}
+
+{% block app_title %}
+<a href="/"  class="fs-2 mx-2 link-primary text-decoration-none">&leftarrow;</a> Task 3: Password Generator
+{% endblock %}
+
+{% block app_desc %}
+    Password Generator with many options and custom length
+{% endblock %}
+
+{% block content %}
+    <form class="d-flex flex-column gap-4" onsubmit="return false;">
+
+        {{ comps.input(name='length', label='Length', type='number', default='8') }}
+        {{ comps.checkbox_inline(['_uppercase', '_lowercase', 'numbers', 'symbols']) }}
+
+        <div class="d-flex gap-4">
+            <button hx-post="/password-generator/generate" hx-target="#password"
+                    class="btn btn-outline-primary w-100">
+                Generate
+            </button>
+            <button onclick="copyPassword()" hx-swap="innerHTML" class="btn btn-outline-secondary w-100">Copy
+            </button>
+        </div>
+    </form>
+
+    <hr>
+
+    {{ comps.result('Generated', 'password', 'Superman69') }}
+
+
+    <script>
+        const password = document.getElementById("password");
+        password.addEventListener("click", copyPassword);
+
+        document.body.addEventListener("htmx:afterSwap", filterPassword)
+
+        function filterPassword() {
+            console.log('filterPassword()');
+            password.innerText = password.innerText.replace(/"/g, '');
+        }
+
+        function copyPassword() {
+            console.log('copyPassword()');
+            navigator.clipboard.writeText(password.innerText);
+        }
+    </script>
+{% endblock %}

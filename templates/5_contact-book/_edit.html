@@ -1,0 +1,23 @@
+{% import 'comps/base.html' as comps %}
+
+<!-- create template for edit -->
+
+<tr id="contact-{{ contact.id }}">
+    <form hx-post="/contact-book/edit/{{ contact.id }}" hx-swap="outerHTML" hx-target="#contact-{{ contact.id }}">
+        <td>{{ contact.id }}</td>
+        <td>
+            {{ comps.input(name='fullname', label='', type='text', default=contact.fullname) }}
+        </td>
+        <td>
+            {{ comps.input(name='email', label='', type='email', default=contact.email) }}
+        </td>
+        <td>
+            {{ comps.input(name='phone', label='', type='phone', default=contact.phone) }}
+        </td>
+        <td class="text-end">
+            <button type="submit" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-save-fill"></i>
+            </button>
+        </td>
+    </form>
+</tr>

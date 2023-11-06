@@ -1,0 +1,23 @@
+<tr id="todo-{{ todo.id }}" hx-swap="outerHTML">
+    <th scope="row">{{ todo.id }}</th>
+    <td class="">
+        <form hx-post="/todo/edit/{{ todo.id }}" hx-target="#todo-{{ todo.id }}" class="d-block d-sm-flex gap-2">
+        <input type="text" class="form-control w-25" name="task" value="{{ todo.title }}">
+            <input type="submit" value="Done" class="btn btn-info">
+        </form>
+    </td>
+    <td class="text-end">
+        <button hx-get="/todo/complete/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-success m-1 btn-sm">
+            <i class="bi bi-check-lg"></i>
+        </button>
+        <button hx-get="/todo/edit/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-primary m-1 btn-sm">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+        <button hx-delete="/todo/remove/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-danger m-1 btn-sm">
+            <i class="bi bi-trash-fill"></i>
+        </button>
+    </td>
+</tr>

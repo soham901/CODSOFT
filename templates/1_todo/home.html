@@ -1,0 +1,49 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Task 1: Todo App
+{% endblock %}
+
+{% block app_title %}
+    <a href="/" class="fs-2 mx-2 link-primary text-decoration-none">&leftarrow;</a>
+    Task 1: Todo App
+{% endblock %}
+
+{% block app_desc %}a Todo app with CRUD{% endblock %}
+
+{% block content %}
+    <form class="fs-5 d-flex flex-sm-row flex-column gap-sm-2 gap-0" hx-post="/todo/add" hx-swap="beforeend" hx-target="#table-body">
+        <div class="flex-grow-1">{{ comps.input('task', 'text', placeholder='Write your task here...') }}</div>
+        <div class=""><input type="submit" value="Add" class="btn btn-primary w-100"></div>
+    </form>
+
+    <div class="table-responsive">
+        <table id="todos-table" class="table table-hover table-sm fs-5 caption-top">
+            <caption>List of all tasks</caption>
+            <thead>
+            <tr>
+                <th scope="col">UID</th>
+                <th scope="col" class="">Task</th>
+                <th scope="col" class="text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="table-body">
+            {% for todo in todos %}
+                {% include '1_todo/_item.html' %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function (event) {
+            document.getElementById("task-field").value = ""
+        });
+    </script>
+{% endblock %}

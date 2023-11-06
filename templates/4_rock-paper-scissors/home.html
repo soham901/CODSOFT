@@ -1,0 +1,116 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}Task 4: Rock Paper Scissors{% endblock %}
+
+{% block app_title %}
+    <a href="/"  class="fs-2 mx-2 link-primary text-decoration-none">&leftarrow;</a> Task 4: Rock Paper
+    Scissors
+{% endblock %}
+
+{% block app_desc %}
+    Rock Paper Scissors Game
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex">
+        <div class="fs-4 fw-bold py-2">Choose your move</div>
+        <div class="fs-4 fw-bold py-2 ms-auto">Score: <span id="score" class="fs-2">0</span></div>
+    </div>
+    <form hx-get="/rock-paper-scissors/play" hx-target="#result" class="d-flex flex-column gap-4">
+
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="user_choice" value="R" id="user_choice-1" autocomplete="off"
+                   checked>
+            <label class="btn btn-outline-light" for="user_choice-1"><img class="p-2 img-fluid my-img"
+                                                                          src="/static/images/rock.png" alt=""></label>
+
+            <input type="radio" class="btn-check" name="user_choice" value="P" id="user_choice-2" autocomplete="off">
+            <label class="btn btn-outline-light" for="user_choice-2"><img class="p-2 img-fluid my-img"
+                                                                          src="/static/images/paper.png" alt=""></label>
+
+            <input type="radio" class="btn-check" name="user_choice" value="S" id="user_choice-3" autocomplete="off">
+            <label class="btn btn-outline-light" for="user_choice-3"><img class="p-2 img-fluid my-img"
+                                                                          src="/static/images/scissors.png"
+                                                                          alt=""></label>
+        </div>
+
+        <input type="submit" value="PLAY" class="btn btn-outline-primary btn-lg">
+    </form>
+
+    <div id="result" class="d-none"></div>
+
+    {#    Modal button #}
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#resultModal"
+            id="resultModalButton">
+        Launch demo modal
+    </button>
+
+    <!-- Result Screen -->
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="fs-1 fw-bold" id="resultModalLabel">Result</div>
+                        <div class="fs-4 fw-bold" id="resultModalText">You choosed
+                            <span class="text-primary fw-bold" id="resultModalUserChoice">Rock</span>
+                        </div>
+                        <div class="fs-4 fw-bold" id="resultModalText">Computer choosed
+                            <span class="text-primary fw-bold" id="resultModalComputerChoice">Rock</span>
+                        </div>
+                        <div class="fs-1 fw-bold my-4" id="resultStatus">...</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        console.log("Task 4: Rock Paper Scissors");
+
+        const resultModalBtn = document.getElementById("resultModalButton");
+        const computerChoice = document.getElementById("resultModalComputerChoice");
+        const userChoice = document.getElementById("resultModalUserChoice");
+        const resultStatus = document.getElementById("resultStatus");
+        const score = document.getElementById("score");
+
+        document.body.addEventListener("htmx:afterSwap", event => {
+            // Show the modal.
+            resultModalBtn.click();
+            const data = JSON.parse(event.detail.xhr.response);
+            computerChoice.innerText = data.computer_choice;
+            userChoice.innerText = data.user_choice;
+            resultStatus.innerText = data.result;
+            prevScore = parseInt(score.innerText);
+
+            // Update the score.
+            score.innerText = data.score;
+
+            // Remove all text color classes from result.
+            resultStatus.classList.remove("text-success");
+            resultStatus.classList.remove("text-danger");
+            resultStatus.classList.remove("text-warning");
+            score.classList.remove("text-success");
+            score.classList.remove("text-danger");
+            score.classList.remove("text-warning");
+
+            if (data.result === "You Win!") {
+                resultStatus.classList.add("text-success");
+                score.classList.add("text-success");
+            } else if (data.result === "You Lose!") {
+                resultStatus.classList.add("text-danger");
+                score.classList.add("text-danger");
+            } else {
+                resultStatus.classList.add("text-warning");
+                score.classList.add("text-warning");
+            }
+        });
+    </script>
+{% endblock %}

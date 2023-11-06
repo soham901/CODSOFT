@@ -1,0 +1,24 @@
+{% import 'comps/base.html' as comps %}
+
+<tr id="contact-{{ contact.id }}">
+    <td scope="row">{{ contact.id }}</td>
+    <td class="text-center">{{ contact.fullname }}</td>
+    <td class="text-center">
+        {% if contact.email %}
+            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+        {% else %}
+            <span>-</span>
+        {% endif %}
+    </td>
+    <td class="text-center">{{ contact.phone }}</td>
+    <td class="text-end">
+        <button hx-get="/contact-book/edit/{{ contact.id }}" hx-target="#contact-{{ contact.id }}" hx-swap="outerHTML"
+                class="btn btn-sm btn-outline-info">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <button hx-delete="/contact-book/remove/{{ contact.id }}" hx-target="#contact-{{ contact.id }}"
+                class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-trash3"></i>
+        </button>
+    </td>
+</tr>

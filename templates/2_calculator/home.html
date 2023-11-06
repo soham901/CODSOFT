@@ -1,0 +1,26 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Task 2: Calculator
+{% endblock %}
+
+{% block app_title %}
+    <a href="/"  class="fs-2 mx-2 link-primary text-decoration-none">&leftarrow;</a> Task 2: Calculator
+{% endblock %}
+
+{% block app_desc %}
+    a Calculator with a simple expression parser
+{% endblock %}
+
+{% block content %}
+    <div class="">
+        <form class="d-flex flex-column" hx-post="/calculator" hx-target="#ans">
+            {{ comps.input(name='expression', label='Expression', type='text', is_required=True) }}
+            <input type="submit" value="Solve" class="btn btn-outline-success">
+        </form>
+        <hr>
+        {{ comps.result('Answer', 'ans', '-') }}
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% macro checkbox_inline(names) %}
+    <div class="row">
+        <div class="col-sm-2">Options:</div>
+        <div class="col-10 d-flex justify-content-between flex-column flex-sm-row">
+            {% for name in names %}
+                {% set _name = name[1:] if name|first == '_' else name %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="{{ _name }}" name="{{ _name }}"
+                           {% if _name != name %}checked{% endif %}>
+                    <label class="form-check-label" for="{{ _name }}">{{ _name|title }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro input(name, label='', type='text', default='', placeholder='', is_required=False) %}
+    <div class="mb-3 row">
+        {% if label %}
+            <label for="{{ name }}-field" class="col-sm-2 col-form-label">
+                {{ label }}{% if is_required %}*{% endif %}
+            </label>
+        {% endif %}
+        <div class="col-sm-10">
+            <input type="{{ type }}" autocomplete="false" class="form-control" placeholder="{{ placeholder }}"
+                   id="{{ name }}-field" name="{{ name }}" value="{{ default }}"
+                   {% if is_required %}required{% endif %}>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro result(title, id, mock_result) %}
+    <div class="row">
+        <div class="col fs-4 fw-bold">{{ title }}:</div>
+        <div class="col fs-4 text-end" id="{{ id }}">{{ mock_result }}</div>
+    </div>
+{% endmacro %}

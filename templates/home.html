@@ -1,0 +1,28 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}Soham Sagathiya{% endblock %}
+
+{% block app_title %}Soham Sagathiya{% endblock %}
+
+{% block app_desc %}Python Internship at CodSoft{% endblock %}
+
+{% block content %}
+    <div class="row mt-5">
+        <div class="col-md-6 w-100">
+            <h2 class="h3">Projects</h2>
+            <ul class="list-group">
+                {% for link in nav_links %}
+                    <li class="list-group-item list-group-item-action">
+                        <a href="/{{ link }}" class="text-decoration-none">
+                            {{ loop.index }}.
+                            {{ link|title|replace('-', ' ') }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

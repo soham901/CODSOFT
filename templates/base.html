@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+
+    {# BOOTSTRAP CSS #}
+    <link rel="stylesheet" href="/static/libs/bootstrap-5.3.0-dist/css/bootstrap.min.css">
+
+    {# BOOTSTRAP ICONS #}
+    <link rel="stylesheet" href="/static/libs/bootstrap-icons-1.11.1/bootstrap-icons.min.css">
+
+    {# HTMX #}
+    <script src="/static/libs/htmx/htmx.min.js"></script>
+
+    {# CUSTOM CSS #}
+    <link rel="stylesheet" href="/static/css/base.css">
+
+</head>
+<body class="container py-sm-5 py-2 p-2">
+<div class="bg-body-secondary shadow p-2 pt-4 p-sm-4 rounded-2">
+    <div class="fs-2 fw-bold">
+        {% block app_title %}{% endblock %}
+        <div class="lead mt-2">- {% block app_desc %}{% endblock %}</div>
+    </div>
+
+    <hr>
+    {% block content %}{% endblock %}
+</div>
+
+{# BOOTSTRAP JS #}
+<script src="/static/libs/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+
+{# CUSTOM JS #}
+{% block javascript %}{% endblock %}
+
+
+</body>
+</html>

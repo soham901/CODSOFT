@@ -1,0 +1,82 @@
+{% import 'comps/base.html' as comps %}
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Task 5: Contact Book
+{% endblock %}
+
+{% block app_title %}
+    <a href="/" class="fs-2 mx-2 link-primary text-decoration-none">&leftarrow;</a>
+    Task 5: Contact Book
+{% endblock %}
+
+{% block app_desc %}a Contact book with CRUD{% endblock %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm fs-5 caption-top">
+            <caption>List of contacts</caption>
+            <thead>
+            <tr>
+                <th>UID</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Phone</th>
+                <th class="text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="table-body">
+            {% for contact in contacts %}
+                {% include '5_contact-book/_item.html' %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Button trigger modal -->
+    <div class="position-absolute end-0 bottom-0 p-3">
+        <button type="button" class="bg-transparent border-0 btn btn-outline-info" data-bs-toggle="modal"
+                data-bs-target="#CreateModal">
+            <i class="bi bi-plus-circle-fill" style="font-size: 3.2rem;"></i>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="CreateModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form hx-post="/contact-book/add" id="contact-form" hx-target="#table-body" hx-swap="afterbegin">
+                    <div class="modal-body">
+                        {{ comps.input(name='fullname', label='Fullname', type='text', is_required=True) }}
+                        {{ comps.input(name='email', label='Email', type='email', is_required=False) }}
+                        {{ comps.input(name='phone', label='Phone', type='phone', is_required=True) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script src="/static/libs/jquery/jquery.js"></script>
+
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function (event) {
+            document.getElementById("contact-form").reset();
+
+            console.log('afterSwap');
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+<tr id="todo-{{ todo.id }}" hx-swap="outerHTML">
+    <th scope="row">{{ todo.id }}</th>
+    <td class="">
+        <div class="text-wrap {% if todo.is_completed %}text-decoration-line-through{% endif %}">
+            {{ todo.title }}
+        </div>
+    </td>
+    <td class="text-end">
+        <button hx-get="/todo/complete/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-success m-1 btn-sm">
+            <i class="bi bi-check-lg"></i>
+        </button>
+        <button hx-get="/todo/edit/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-primary m-1 btn-sm">
+            <i class="bi bi-pencil-fill"></i>
+        </button>
+        <button hx-delete="/todo/remove/{{ todo.id }}" hx-target="#todo-{{ todo.id }}"
+                class="btn btn-outline-danger m-1 btn-sm">
+            <i class="bi bi-trash-fill"></i>
+        </button>
+    </td>
+</tr>
