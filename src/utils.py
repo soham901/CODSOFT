@@ -6,6 +6,7 @@ import importlib as ilib
 import os
 
 routes = []
+nav_links = []
 
 
 def get_submodules(module: str):
@@ -34,6 +35,7 @@ def load_sub_apps(app: FastAPI):
     try:
         for module in modules:
             sub_app = ilib.import_module(f'src.{module}.app')
+            nav_links.append(module)
             module = remove_num_pre(module)
             app.mount(f'/{module}', sub_app.app)
             # app.add_api_route(f'/{module}', ilib.import_module(f'src.{module}.app').app, methods=['GET', 'POST'])
@@ -59,9 +61,10 @@ class Template:
         path = f'{self.sub_template_path}/{path}' if self.sub_template_path else path
         return self.templates.TemplateResponse(path, context=context)
 
+
 def get_routes():
-    global routes
-    _routes = sorted(routes)
-    for idx in range(len(_routes)):
-        _routes[idx] = remove_num_pre(_routes[idx])
-    return _routes
+    global routes, nav_links
+    links = sorted(nav_links)
+    for idx in range(len(links)):
+        links[idx] = remove_num_pre(links[idx])
+    return links
