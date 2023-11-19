@@ -22,3 +22,4 @@ uvloop==0.18.0
 watchfiles==0.20.0
 websockets==11.0.3
 zipp==3.15.0
+sqlalchemy
